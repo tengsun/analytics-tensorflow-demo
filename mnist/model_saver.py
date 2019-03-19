@@ -11,6 +11,7 @@ def main(argv=None):
     with tf.Session() as sess:
         sess.run(init_op)
         saver.save(sess, './model/model_saver.ckpt')
+        saver.export_meta_graph('./model/model_saver.ckpt.meta.json', as_text=True)
 
 if __name__ == '__main__':
     tf.app.run()
