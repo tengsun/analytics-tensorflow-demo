@@ -90,7 +90,7 @@ def train(mnist):
 
 # define the main function
 def main(argv=None):
-    mnist = input_data.read_data_sets('../data/mnist/', one_hot=True)
+    mnist = input_data.read_data_sets('./data/', one_hot=True)
     train(mnist)
 
 if __name__ == '__main__':
