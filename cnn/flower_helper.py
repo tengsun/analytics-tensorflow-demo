@@ -33,10 +33,10 @@ def create_image_lists(sess, test_percent, validation_percent):
             continue
     
         # retrieve all images
-        extensions = ['jpg', 'jpeg', 'JPG', 'JPEG']
+        extensions = ['jpg']
         file_list = []
         dir_name = os.path.basename(sub_dir)
-        print('current dir:', sub_dir)
+        print('current dir and label:', sub_dir, current_label)
         for ext in extensions:
             file_glob = os.path.join(INPUT_DATA, dir_name, '*.' + ext)
             file_list.extend(glob.glob(file_glob))
@@ -71,6 +71,8 @@ def create_image_lists(sess, test_percent, validation_percent):
     np.random.set_state(state)
     np.random.shuffle(training_labels)
 
+    print('training %d, validation %d, testing %d' 
+        %(len(training_labels), len(validation_labels), len(testing_labels)))
     return np.asarray([training_images, training_labels, validation_images, validation_labels, 
         testing_images, testing_labels])
 
