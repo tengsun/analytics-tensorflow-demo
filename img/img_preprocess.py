@@ -46,6 +46,24 @@ def flip_transpose_img():
         transposed_img = tf.image.transpose_image(img_data)
         encode_write_img(transposed_img, './data/swk_transposed.jpg')
 
+def adjust_img_bchs():
+    with tf.Session() as sess:
+        img_data = tf.image.decode_jpeg(image_raw_data)
+
+        # adjust different aspects
+        adjusted = tf.image.adjust_brightness(img_data, 0.5)
+        encode_write_img(adjusted, './data/swk_adjusted_1.jpg')
+        adjusted = tf.image.adjust_contrast(img_data, 1)
+        encode_write_img(adjusted, './data/swk_adjusted_2.jpg')
+        adjusted = tf.image.adjust_hue(img_data, 1)
+        encode_write_img(adjusted, './data/swk_adjusted_3.jpg')
+        adjusted = tf.image.adjust_saturation(img_data, 5)
+        encode_write_img(adjusted, './data/swk_adjusted_4.jpg')
+        img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)
+        adjusted = tf.image.per_image_standardization(img_data)
+        adjusted = tf.image.convert_image_dtype(adjusted, dtype=tf.uint8)
+        encode_write_img(adjusted, './data/swk_adjusted_5.jpg')
+
 def encode_write_img(img, path):
     encoded_image = tf.image.encode_jpeg(img)
     with tf.gfile.GFile(path, 'wb') as f:
@@ -55,4 +73,5 @@ def encode_write_img(img, path):
 if __name__ == '__main__':
     # decode_encode_img()
     # adjust_img_size()
-    flip_transpose_img()
+    # flip_transpose_img()
+    adjust_img_bchs()
