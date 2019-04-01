@@ -34,6 +34,18 @@ def adjust_img_size():
         cropped_img = tf.image.convert_image_dtype(cropped_img, dtype=tf.uint8)
         encode_write_img(cropped_img, './data/swk_cropped.jpg')
 
+def flip_transpose_img():
+    with tf.Session() as sess:
+        img_data = tf.image.decode_jpeg(image_raw_data)
+
+        # flip image
+        flipped_img = tf.image.flip_left_right(img_data)
+        encode_write_img(flipped_img, './data/swk_flipped.jpg')
+
+        # transpose image
+        transposed_img = tf.image.transpose_image(img_data)
+        encode_write_img(transposed_img, './data/swk_transposed.jpg')
+
 def encode_write_img(img, path):
     encoded_image = tf.image.encode_jpeg(img)
     with tf.gfile.GFile(path, 'wb') as f:
@@ -42,4 +54,5 @@ def encode_write_img(img, path):
 
 if __name__ == '__main__':
     # decode_encode_img()
-    adjust_img_size()
+    # adjust_img_size()
+    flip_transpose_img()
