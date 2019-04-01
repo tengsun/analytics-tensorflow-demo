@@ -59,10 +59,22 @@ def adjust_img_bchs():
         encode_write_img(adjusted, './data/swk_adjusted_3.jpg')
         adjusted = tf.image.adjust_saturation(img_data, 5)
         encode_write_img(adjusted, './data/swk_adjusted_4.jpg')
-        img_data = tf.image.convert_image_dtype(img_data, dtype=tf.uint8)
         adjusted = tf.image.per_image_standardization(img_data)
         adjusted = tf.image.convert_image_dtype(adjusted, dtype=tf.uint8)
         encode_write_img(adjusted, './data/swk_adjusted_5.jpg')
+
+def draw_bouding_box():
+    with tf.Session() as sess:
+        img_data = tf.image.decode_jpeg(image_raw_data)
+        
+        # draw image boxes
+        batched = tf.expand_dims(tf.image.convert_image_dtype(img_data, tf.float32), 0)
+        boxes = tf.constant([[[0.05,0.05,0.9,0.9], [0.08,0.3,0.52,0.8]]])
+        result = tf.image.draw_bounding_boxes(batched, boxes)
+
+        # show on plot
+        plt.imshow(result.eval().reshape([115, 100, 3]))
+        plt.show()
 
 def encode_write_img(img, path):
     encoded_image = tf.image.encode_jpeg(img)
@@ -74,4 +86,5 @@ if __name__ == '__main__':
     # decode_encode_img()
     # adjust_img_size()
     # flip_transpose_img()
-    adjust_img_bchs()
+    # adjust_img_bchs()
+    draw_bouding_box()
