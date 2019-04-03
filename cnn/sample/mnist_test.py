@@ -1,4 +1,5 @@
 import time
+import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -9,9 +10,15 @@ TEST_INTERVAL_SECS = 10
 
 def test(mnist):
     with tf.Graph().as_default() as g:
-        x = tf.placeholder(tf.float32, [None, mnist_inference.INPUT_NODE], name='x-input')
+        x = tf.placeholder(tf.float32, [mnist.validation.num_examples, 
+            mnist_inference.IMAGE_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.NUM_CHANNELS], 
+            name='x-input')
         y_ = tf.placeholder(tf.float32, [None, mnist_inference.OUTPUT_NODE], name='y-input')
-        validate_feed = {x: mnist.validation.images, y_: mnist.validation.labels}
+
+        # prepare validation feed
+        reshaped_xs = np.reshape(mnist.validation.images, (mnist.validation.num_examples, 
+                mnist_inference.IMAGE_SIZE, mnist_inference.IMAGE_SIZE, mnist_inference.NUM_CHANNELS))
+        validate_feed = {x: reshaped_xs, y_: mnist.validation.labels}
 
         # calculate the result
         y = mnist_inference.inference(x, False, None)

@@ -7,10 +7,10 @@ import mnist_inference
 
 # neural network params
 BATCH_SIZE = 100
-LEARNING_RATE_BASE = 0.8
+LEARNING_RATE_BASE = 0.1
 LEARNING_RATE_DECAY = 0.99
 REGULARIZATION_RATE = 0.0001
-TRAINING_STEPS = 10000
+TRAINING_STEPS = 1000
 MOVING_AVERAGE_DECAY = 0.99
 
 # model path and name
@@ -61,7 +61,7 @@ def train(mnist):
                 feed_dict={x: reshaped_xs, y_: ys})
 
             # save model every 1000 times
-            if i % 1000 == 0:
+            if i % 100 == 0:
                 print('after %d training steps, loss value is %g ' %(step, loss_value))
                 saver.save(sess, os.path.join(MODEL_SAVE_PATH, MODEL_NAME), 
                     global_step=global_step)
