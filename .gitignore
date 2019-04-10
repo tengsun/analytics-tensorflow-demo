@@ -111,3 +111,5 @@ venv.bak/
 /cnn/model/inception_v3.ckpt
 /cnn/model/flower-1.*
 /cnn/model/checkpoint
+/nlp/data/simple-examples
+/nlp/data/simple-examples.tgz
