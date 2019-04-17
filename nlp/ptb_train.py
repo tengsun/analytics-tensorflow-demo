@@ -64,8 +64,8 @@ class PTBModel(object):
             for time_step in range(num_steps):
                 if time_step > 0:
                     tf.get_variable_scope().reuse_variables()
-                    cell_output, state = cell(inputs[:, time_step, :], state)
-                    outputs.append(cell_output)
+                cell_output, state = cell(inputs[:, time_step, :], state)
+                outputs.append(cell_output)
         # outputs -> [batch, hidden_size * num_steps]
         #         -> [batch * num_steps, hidden_size]
         output = tf.reshape(tf.concat(outputs, 1), [-1, HIDDEN_SIZE])
@@ -117,9 +117,11 @@ def run_epoch(session, model, batches, train_op, output_log, step):
 def main():
     initializer = tf.random_uniform_initializer(-0.05, 0.05)
 
+    # define the RNN model for training
     with tf.variable_scope('language_model', reuse=None, initializer=initializer):
         train_model = PTBModel(True, TRAIN_BATCH_SIZE, TRAIN_NUM_STEPS)
     
+    # reuse RNN model params but no dropout
     with tf.variable_scope('language_model', reuse=True, initializer=initializer):
         eval_model = PTBModel(False, EVAL_BATCH_SIZE, EVAL_NUM_STEPS)
 
@@ -140,11 +142,11 @@ def main():
             print('epoch: %d, train perplexity: %.3f' %(i + 1, train_pplx))
 
             _, eval_pplx = run_epoch(session, eval_model, eval_batches, 
-                tf.no_op(), False, 0)
+                tf.no_op(), True, 0)
             print('epoch: %d, eval perplexity: %.3f' %(i + 1, eval_pplx))
         
         _, test_pplx = run_epoch(session, eval_model, test_batches, 
-                tf.no_op(), False, 0)
+                tf.no_op(), True, 0)
         print('test perplexity: %.3f' %(test_pplx))
 
 

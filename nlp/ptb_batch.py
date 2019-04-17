@@ -20,6 +20,7 @@ def make_batches(id_list, batch_size, num_step):
     # one batch = batch_size * num_step (// is floor operation)
     num_batches = (len(id_list) - 1) // (batch_size * num_step)
 
+    # transform data shape: [20, n x 35] -> [n, [20, 35]]
     data = np.array(id_list[: num_batches * batch_size * num_step])
     data = np.reshape(data, [batch_size, num_batches * num_step])
     data_batches = np.split(data, num_batches, axis=1)
