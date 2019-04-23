@@ -136,7 +136,7 @@ def main():
         
         step = 0
         for i in range(NUM_EPOCH):
-            print('in iteration:', i + 1)
+            print('in epoch:', i + 1)
             step, train_pplx = run_epoch(session, train_model, train_batches, 
                 train_model.train_op, True, step)
             print('epoch: %d, train perplexity: %.3f' %(i + 1, train_pplx))

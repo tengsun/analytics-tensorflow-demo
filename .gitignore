@@ -113,3 +113,6 @@ venv.bak/
 /cnn/model/checkpoint
 /nlp/data/simple-examples
 /nlp/data/simple-examples.tgz
+/nlp/data/wmt-zh-en
+/nlp/data/wmt-zh-en.tgz
+/nlp/model/*
