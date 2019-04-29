@@ -26,7 +26,7 @@ def lenet5(inputs):
     return net
 
 
-def train(minst):
+def train(mnist):
     # define input and network
     x = tf.placeholder(tf.float32, [None, 784], name='x-input')
     y_ = tf.placeholder(tf.float32, [None, 10], name='y-input')
@@ -43,7 +43,7 @@ def train(minst):
     with tf.Session() as sess:
         tf.global_variables_initializer().run()
         for i in range(10000):
-            xs, ys = minst.train.next_batch(100)
+            xs, ys = mnist.train.next_batch(100)
             _, loss_value = sess.run([train_op, loss], 
                 feed_dict={x: xs, y_: ys})
             
@@ -53,5 +53,5 @@ def train(minst):
 
 
 if __name__ == '__main__':
-    mnist = input_data.read_data_sets('../../mnist/data/', one_hot=True)
+    mnist = input_data.read_data_sets('../../mnist/data', one_hot=True)
     train(mnist)
